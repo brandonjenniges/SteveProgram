@@ -11,21 +11,23 @@ namespace ButcherBlock
         private string name;
         private int id;
         private double price;
+        private string price_string;
 
         public Product()
         {
         }
 
-        public Product(int  p_id, string p_name, double p_price)
+        public Product(int  p_id, string p_name, string p_price)
         {
             name = p_name;
             id = p_id;
-            price = p_price;
+            price_string = name.Equals("Deer Processing") ? "$" + p_price : "$" + p_price + "/lb";
+            price = Convert.ToDouble(p_price);
         }
 
-        public double getPrice()
+        public int getId()
         {
-            return price;
+            return id;
         }
 
         public string getName()
@@ -33,9 +35,18 @@ namespace ButcherBlock
             return name;
         }
 
-        public int getId()
+        public double getPriceValue()
         {
-            return id;
+            return price;
         }
+
+        public string getPriceString()
+        {
+            return price_string;
+        }
+
+        
+
+        
     }
 }

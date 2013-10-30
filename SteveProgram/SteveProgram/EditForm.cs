@@ -14,20 +14,21 @@ namespace ButcherBlock
     public partial class EditForm : Form
     {
         private int productId;
-        public EditForm(int id, string name, double price)
+        private PriceForm parentPriceForm;
+
+        public EditForm(PriceForm p, int id, string name, double price)
         {
+            parentPriceForm = p;
             InitializeComponent();
             productId = id;
             productNameTextBox.Text = name;
             productPriceTextBox.Text = price.ToString();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void saveProductChanges(object sender, EventArgs e)
         {
             SQLiteConnection sqlite_conn;
             SQLiteCommand sqlite_cmd;
-            SQLiteDataReader sqlite_datareader;
-
 
             sqlite_conn = new SQLiteConnection("Data Source=products.db;Version=3;New=False;Compress=True;");
             sqlite_conn.Open();
@@ -40,35 +41,38 @@ namespace ButcherBlock
 
             // We are ready, now lets cleanup and close our connection:
             sqlite_conn.Close();
+
+            parentPriceForm.loadPrices();
             
             Close();
 
-            MessageBox.Show("Product changed");
-
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void deleteProduct(object sender, EventArgs e)
         {
-            SQLiteConnection sqlite_conn;
-            SQLiteCommand sqlite_cmd;
-            SQLiteDataReader sqlite_datareader;
+            if (MessageBox.Show("Are you sure you want to remvoe this prduct?", "Confirm delete", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+
+                SQLiteConnection sqlite_conn;
+                SQLiteCommand sqlite_cmd;
 
 
-            sqlite_conn = new SQLiteConnection("Data Source=products.db;Version=3;New=False;Compress=True;");
-            sqlite_conn.Open();
+                sqlite_conn = new SQLiteConnection("Data Source=products.db;Version=3;New=False;Compress=True;");
+                sqlite_conn.Open();
 
-            sqlite_cmd = sqlite_conn.CreateCommand();
+                sqlite_cmd = sqlite_conn.CreateCommand();
 
-            sqlite_cmd.CommandText = "DELETE FROM Products WHERE id = " + productId;
+                sqlite_cmd.CommandText = "DELETE FROM Products WHERE id = " + productId;
 
-            sqlite_cmd.ExecuteNonQuery();
+                sqlite_cmd.ExecuteNonQuery();
 
-            // We are ready, now lets cleanup and close our connection:
-            sqlite_conn.Close();
+                // We are ready, now lets cleanup and close our connection:
+                sqlite_conn.Close();
+
+                parentPriceForm.loadPrices();
+            }
 
             Close();
-
-            MessageBox.Show("Product deleted");
         }
     }
 }
