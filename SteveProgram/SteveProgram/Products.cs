@@ -8,10 +8,12 @@ namespace ButcherBlock
 {
     class Product
     {
-        private string name;
         private int id;
+        private string name;
         private double price;
-        private string price_string;
+        private double quantity;
+        private double added_weight;
+        private string product_contents;
 
         public Product()
         {
@@ -21,28 +23,112 @@ namespace ButcherBlock
         {
             name = p_name;
             id = p_id;
-            price_string = name.Equals("Deer Processing") ? "$" + p_price : "$" + p_price + "/lb";
+           //price_string = name.Equals("Deer Processing") ? "$" + p_price : "$" + p_price + "/lb";
             price = Convert.ToDouble(p_price);
         }
 
-        public int getId()
+        public int Id
         {
-            return id;
+            get
+            {
+                return id;
+            }
+            set
+            {
+                id = value;
+            }
         }
 
-        public string getName()
+        public string Name
         {
-            return name;
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+            }
         }
 
-        public double getPriceValue()
+        public double Price
         {
-            return price;
+            get
+            {
+                return price;
+            }
+            set
+            {
+                price = value;
+            }
         }
 
-        public string getPriceString()
+        public string PriceString
         {
-            return price_string;
+            get
+            {
+                return name.Equals("Deer Processing") ? "$" + price : "$" + price + "/lb";
+            }
+        }
+
+        public double Quantity
+        {
+            get
+            {
+                return quantity;
+            }
+            set
+            {
+                quantity = value;
+            }
+        }
+
+        public double AddedWeight
+        {
+            get
+            {
+                return added_weight;
+            }
+            set
+            {
+                added_weight = value;  
+            }
+        }
+
+        public double TotalWeight
+        {
+            get
+            {
+                return added_weight + quantity;
+            }
+        }
+
+        public double TotalCost
+        {
+            get
+            {
+                return price * TotalWeight;
+            }
+        }
+
+        public string TotalCostString
+        {
+            get
+            {
+                return "$" + TotalCost;
+            }
+        }
+
+        public string ProductContents
+        {
+            get
+            {
+                return product_contents;
+            }
+            set
+            {
+                product_contents = value;
+            }
         }
 
         

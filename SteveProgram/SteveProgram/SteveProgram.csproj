@@ -60,6 +60,7 @@
     <Compile Include="EditForm.Designer.cs">
       <DependentUpon>EditForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormulaHandler.cs" />
     <Compile Include="Products.cs" />
     <Compile Include="PriceForm.cs">
       <SubType>Form</SubType>

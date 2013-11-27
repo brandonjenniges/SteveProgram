@@ -46,8 +46,8 @@ namespace ButcherBlock
             for (int i = 0; i < products.Count; i++)
             {
                 ListViewItem aFooItem = new ListViewItem((i+1).ToString());
-                ListViewItem.ListViewSubItem aSubFooItem1 = new ListViewItem.ListViewSubItem(aFooItem, ((Product)products[i]).getName().ToString());
-                ListViewItem.ListViewSubItem aSubFooItem2 = new ListViewItem.ListViewSubItem(aFooItem, ((Product)products[i]).getPriceString()); 
+                ListViewItem.ListViewSubItem aSubFooItem1 = new ListViewItem.ListViewSubItem(aFooItem, ((Product)products[i]).Name);
+                ListViewItem.ListViewSubItem aSubFooItem2 = new ListViewItem.ListViewSubItem(aFooItem, ((Product)products[i]).PriceString); 
                 aFooItem.SubItems.Add(aSubFooItem1);
                 aFooItem.SubItems.Add(aSubFooItem2);
                 myListView.Items.Add(aFooItem);
@@ -69,9 +69,9 @@ namespace ButcherBlock
             if (myListView.SelectedItems.Count > 0)
             {
 
-                clickedProductId = ((Product)products[myListView.SelectedItems[0].Index]).getId();
-                clickedProductName = ((Product)products[myListView.SelectedItems[0].Index]).getName().ToString();
-                clickedProductPrice = ((Product)products[myListView.SelectedItems[0].Index]).getPriceValue();
+                clickedProductId = ((Product)products[myListView.SelectedItems[0].Index]).Id;
+                clickedProductName = ((Product)products[myListView.SelectedItems[0].Index]).Name;
+                clickedProductPrice = ((Product)products[myListView.SelectedItems[0].Index]).Price;
                 new EditForm(this, clickedProductId, clickedProductName, clickedProductPrice).Show();
 
             }   

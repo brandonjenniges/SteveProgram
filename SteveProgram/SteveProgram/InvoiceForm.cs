@@ -26,6 +26,7 @@ namespace ButcherBlock
         public ArrayList table_total_cost = new ArrayList();
         public ArrayList table_added_content = new ArrayList();
 
+        List<Product> order = new List<Product>();
         List<Product> products = new List<Product>();
         ArrayList productNames = new ArrayList();
 
@@ -119,42 +120,59 @@ namespace ButcherBlock
         {
             foreach (Product p in products)
             {
-                productNames.Add(p.getName());
+                productNames.Add(p.Name);
             }
         }
 
         private void addToFormButton_Click(object sender, EventArgs e)
         {
+            Product newProduct = new Product();
+            newProduct.Id = comboBox1.SelectedIndex;
+            newProduct.Name = comboBox1.SelectedItem.ToString();
+            newProduct.Quantity = newProduct.Name == "Deer Processing" ? 1 : 10;
+
+            FormulaHandler f = new FormulaHandler(newProduct.Name, newProduct.Quantity);
+
+            newProduct.AddedWeight = f.getToAdd();
+
+            foreach (Product pa in products)
+            {
+                if (pa.Name == newProduct.Name)
+                {
+                    newProduct.Price = pa.Price;
+                }
+            }
+
             TextBox q = new TextBox();
-            q.Text = "10";
+            q.Text = newProduct.Quantity.ToString();
             table_quantities.Add(q);
             q.TextChanged += new System.EventHandler(this.quan_changed);
             q.Tag = rows;
             rows++;
 
             Label d = new Label();
-            d.Text = comboBox1.SelectedItem.ToString();
+            d.Text = newProduct.Name;
             d.AutoSize = true;
             table_descriptions.Add(d);
 
             Label a = new Label();
-            a.Text = "5";
+            a.Text = newProduct.AddedWeight.ToString();
             table_added_quant.Add(a);
 
             Label w = new Label();
-            w.Text = "15";
+            w.Text = newProduct.TotalWeight.ToString();
             table_total_weight.Add(w);
 
             Label p = new Label();
-            p.Text = "3.99";
+            p.Text = newProduct.PriceString;
             table_unit_prices.Add(p);
 
             Label t = new Label();
-            t.Text = "59.85";
+            t.Text = newProduct.TotalCostString;
             table_total_cost.Add(t);
 
             Label c = new Label();
-            c.Text = "10# Venison 5# Pork";
+            c.Text = f.getContents();
             c.AutoSize = true;
             table_added_content.Add(c);
 
@@ -175,11 +193,15 @@ namespace ButcherBlock
                 tableLayoutPanel1.Controls.Add((Label)table_added_content[i], 6, i + 1);
             }
 
+            order.Add(newProduct);
+
         }
 
         private void quan_changed(object sender, EventArgs e)
         {
-            MessageBox.Show(((TextBox)sender).Text + ", " + ((TextBox)sender).Tag);
+            int inputValue = Convert.ToInt32(((TextBox)sender).Text);
+            int id = Convert.ToInt32(((TextBox)sender).Tag);
+            ((Label)table_added_quant[id]).Text = (inputValue + 5) + "";
         }
 
 
