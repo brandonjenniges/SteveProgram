@@ -23,7 +23,6 @@ namespace ButcherBlock
         {
             name = p_name;
             id = p_id;
-           //price_string = name.Equals("Deer Processing") ? "$" + p_price : "$" + p_price + "/lb";
             price = Convert.ToDouble(p_price);
         }
 

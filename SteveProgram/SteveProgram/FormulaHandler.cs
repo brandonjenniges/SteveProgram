@@ -44,22 +44,40 @@ namespace ButcherBlock
                     contents = toAdd > 0 ? quantity + "# Venison " + toAdd + "# Beef Trim" : quantity + "# Venison ";
                     break;
                 case "Pepperoni Sticks":
+                    toAdd = quantity < 10 ? 1 : Math.Ceiling(quantity/5);
+                    contents = quantity + "# Venison " + toAdd + "# Beef Trim";
                     break;
                 case "Pepperoni Sticks with cheese":
+                    toAdd = quantity < 10 ? 1 : Math.Ceiling(quantity/5);
+                    contents = quantity + "# Venison " + toAdd + "# Beef Trim";
                     break;
                 case "Polish Sausage":
+                    toAdd = Math.Ceiling(quantity / 2);
+                    contents = quantity + "# Venison " + toAdd + "# Pork Trim";
                     break;
                 case "Summer Sausage":
+                    toAdd = quantity < 10 ? 1 : Math.Ceiling(quantity/5);
+                    contents = quantity + "# Venison " + toAdd + "# Beef Trim";
                     break;
                 case "Summer Sausage with cheese":
+                    toAdd = quantity < 10 ? 1 : Math.Ceiling(quantity/5);
+                    contents = quantity + "# Venison " + toAdd + "# Beef Trim";
                     break;
-                case "Wieners" :
+                case "Wieners":
+                    toAdd = Math.Ceiling(quantity / 2);
+                    contents = quantity + "# Venison " + toAdd + "# Pork";
                     break;
                 case "Dried Venison (rounds only)" :
+                    toAdd = 0;
+                    contents = quantity + "# Green Weight";
                     break;
-                case "Gourment 1/3 Seasoned Venison Patties":
+                case "Gourmet 1/3 Seasoned Venison Patties":
+                    toAdd = quantity < 10 ? 1 : Math.Ceiling(quantity/5);
+                    contents = quantity + "# Venison " + toAdd /2 + "# Bacon " +toAdd/2 + "# Beef";
                     break;
                 case "Venison Bacon":
+                    toAdd = quantity;
+                    contents = quantity + "# Venison " + toAdd + "# Pork Trim";
                     break;
                 default:
                     toAdd = 0;

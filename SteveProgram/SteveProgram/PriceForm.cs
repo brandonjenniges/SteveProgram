@@ -37,12 +37,10 @@ namespace ButcherBlock
         {
             myListView.Clear();
 
-            //Adding columns to the ListView control
             myListView.Columns.Add("Id");
             myListView.Columns.Add("Product");
             myListView.Columns.Add("Price");
 
-           // ListViewItem aFooItem = new ListViewItem("1");
             for (int i = 0; i < products.Count; i++)
             {
                 ListViewItem aFooItem = new ListViewItem((i+1).ToString());

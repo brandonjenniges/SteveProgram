@@ -199,9 +199,29 @@ namespace ButcherBlock
 
         private void quan_changed(object sender, EventArgs e)
         {
-            int inputValue = Convert.ToInt32(((TextBox)sender).Text);
-            int id = Convert.ToInt32(((TextBox)sender).Tag);
-            ((Label)table_added_quant[id]).Text = (inputValue + 5) + "";
+            try
+            {
+                int inputValue = Convert.ToInt32(((TextBox)sender).Text);
+                int id = Convert.ToInt32(((TextBox)sender).Tag);
+
+                FormulaHandler f = new FormulaHandler(order[id].Name, inputValue);
+
+                order[id].Quantity = inputValue;
+                order[id].AddedWeight = f.getToAdd();
+                order[id].ProductContents = f.getContents();
+
+                ((Label)table_added_quant[id]).Text = order[id].AddedWeight.ToString();
+                ((Label)table_total_weight[id]).Text = order[id].TotalWeight.ToString();
+                ((Label)table_total_cost[id]).Text = order[id].TotalCostString;
+                ((Label)table_added_content[id]).Text = order[id].ProductContents;
+
+                errorLabel.Text = "";
+            }
+            catch (Exception ex)
+            {
+                errorLabel.Text = "Error in order form, only numbers can be in quan";
+            }
+
         }
 
 
