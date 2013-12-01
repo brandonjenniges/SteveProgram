@@ -130,6 +130,11 @@ namespace ButcherBlock
             }
         }
 
+        public string toString()
+        {
+            return ".  Quan: " + Quantity + ", Description: " + Name + "[" + product_contents + "], Total Cost: " + TotalCostString + "\n";
+        }
+
         
 
         

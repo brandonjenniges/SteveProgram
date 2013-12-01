@@ -30,31 +30,27 @@
         {
             this.form_menu = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reloadPricesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.printToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pricesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.priceSheetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customer_name = new System.Windows.Forms.Label();
             this.customer_name_tb = new System.Windows.Forms.TextBox();
-            this.customer_phone_tb = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.customer_address_tb = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.customer_email_tb = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.printDialog1 = new System.Windows.Forms.PrintDialog();
-            this.printPreview = new System.Windows.Forms.PrintPreviewControl();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.date_tb = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.license_no_tb = new System.Windows.Forms.TextBox();
+            this.customer_phone_tb = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.addToFormButton = new System.Windows.Forms.Button();
             this.errorLabel = new System.Windows.Forms.Label();
+            this.clearToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.form_menu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -63,8 +59,7 @@
             this.form_menu.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.form_menu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.pricesToolStripMenuItem,
-            this.clearToolStripMenuItem});
+            this.pricesToolStripMenuItem});
             this.form_menu.Location = new System.Drawing.Point(0, 0);
             this.form_menu.Name = "form_menu";
             this.form_menu.Size = new System.Drawing.Size(1858, 40);
@@ -74,37 +69,16 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.reloadPricesToolStripMenuItem,
-            this.printToolStripMenuItem});
+            this.printToolStripMenuItem,
+            this.clearToolStripMenuItem1});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(64, 36);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(219, 36);
-            this.openToolStripMenuItem.Text = "Open";
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(219, 36);
-            this.saveToolStripMenuItem.Text = "Save";
-            // 
-            // reloadPricesToolStripMenuItem
-            // 
-            this.reloadPricesToolStripMenuItem.Name = "reloadPricesToolStripMenuItem";
-            this.reloadPricesToolStripMenuItem.Size = new System.Drawing.Size(219, 36);
-            this.reloadPricesToolStripMenuItem.Text = "Reload Data";
-            this.reloadPricesToolStripMenuItem.Click += new System.EventHandler(this.reloadPricesToolStripMenuItem_Click);
-            // 
             // printToolStripMenuItem
             // 
             this.printToolStripMenuItem.Name = "printToolStripMenuItem";
-            this.printToolStripMenuItem.Size = new System.Drawing.Size(219, 36);
+            this.printToolStripMenuItem.Size = new System.Drawing.Size(152, 36);
             this.printToolStripMenuItem.Text = "Print";
             this.printToolStripMenuItem.Click += new System.EventHandler(this.printToolStripMenuItem_Click);
             // 
@@ -122,12 +96,6 @@
             this.priceSheetToolStripMenuItem.Size = new System.Drawing.Size(209, 36);
             this.priceSheetToolStripMenuItem.Text = "Price Sheet";
             this.priceSheetToolStripMenuItem.Click += new System.EventHandler(this.priceSheetToolStripMenuItem_Click);
-            // 
-            // clearToolStripMenuItem
-            // 
-            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(81, 36);
-            this.clearToolStripMenuItem.Text = "Clear";
             // 
             // customer_name
             // 
@@ -147,13 +115,13 @@
             this.customer_name_tb.Size = new System.Drawing.Size(403, 50);
             this.customer_name_tb.TabIndex = 2;
             // 
-            // customer_phone_tb
+            // customer_address_tb
             // 
-            this.customer_phone_tb.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customer_phone_tb.Location = new System.Drawing.Point(169, 137);
-            this.customer_phone_tb.Name = "customer_phone_tb";
-            this.customer_phone_tb.Size = new System.Drawing.Size(403, 50);
-            this.customer_phone_tb.TabIndex = 4;
+            this.customer_address_tb.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customer_address_tb.Location = new System.Drawing.Point(169, 137);
+            this.customer_address_tb.Name = "customer_address_tb";
+            this.customer_address_tb.Size = new System.Drawing.Size(403, 50);
+            this.customer_address_tb.TabIndex = 4;
             // 
             // label1
             // 
@@ -165,13 +133,13 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Address:";
             // 
-            // customer_address_tb
+            // customer_email_tb
             // 
-            this.customer_address_tb.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customer_address_tb.Location = new System.Drawing.Point(169, 207);
-            this.customer_address_tb.Name = "customer_address_tb";
-            this.customer_address_tb.Size = new System.Drawing.Size(403, 50);
-            this.customer_address_tb.TabIndex = 6;
+            this.customer_email_tb.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customer_email_tb.Location = new System.Drawing.Point(169, 207);
+            this.customer_email_tb.Name = "customer_email_tb";
+            this.customer_email_tb.Size = new System.Drawing.Size(403, 50);
+            this.customer_email_tb.TabIndex = 6;
             // 
             // label2
             // 
@@ -187,20 +155,13 @@
             // 
             this.printDialog1.UseEXDialog = true;
             // 
-            // printPreview
+            // date_tb
             // 
-            this.printPreview.Location = new System.Drawing.Point(1365, 61);
-            this.printPreview.Name = "printPreview";
-            this.printPreview.Size = new System.Drawing.Size(443, 307);
-            this.printPreview.TabIndex = 8;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(882, 61);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(403, 50);
-            this.textBox1.TabIndex = 9;
+            this.date_tb.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.date_tb.Location = new System.Drawing.Point(882, 61);
+            this.date_tb.Name = "date_tb";
+            this.date_tb.Size = new System.Drawing.Size(403, 50);
+            this.date_tb.TabIndex = 9;
             // 
             // label3
             // 
@@ -232,21 +193,21 @@
             this.label5.TabIndex = 12;
             this.label5.Text = "Phone:";
             // 
-            // textBox2
+            // license_no_tb
             // 
-            this.textBox2.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(882, 137);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(403, 50);
-            this.textBox2.TabIndex = 13;
+            this.license_no_tb.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.license_no_tb.Location = new System.Drawing.Point(882, 137);
+            this.license_no_tb.Name = "license_no_tb";
+            this.license_no_tb.Size = new System.Drawing.Size(403, 50);
+            this.license_no_tb.TabIndex = 13;
             // 
-            // textBox3
+            // customer_phone_tb
             // 
-            this.textBox3.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox3.Location = new System.Drawing.Point(882, 212);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(403, 50);
-            this.textBox3.TabIndex = 14;
+            this.customer_phone_tb.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customer_phone_tb.Location = new System.Drawing.Point(882, 212);
+            this.customer_phone_tb.Name = "customer_phone_tb";
+            this.customer_phone_tb.Size = new System.Drawing.Size(403, 50);
+            this.customer_phone_tb.TabIndex = 14;
             // 
             // tableLayoutPanel1
             // 
@@ -297,6 +258,13 @@
             this.errorLabel.Size = new System.Drawing.Size(0, 20);
             this.errorLabel.TabIndex = 19;
             // 
+            // clearToolStripMenuItem1
+            // 
+            this.clearToolStripMenuItem1.Name = "clearToolStripMenuItem1";
+            this.clearToolStripMenuItem1.Size = new System.Drawing.Size(152, 36);
+            this.clearToolStripMenuItem1.Text = "Clear";
+            this.clearToolStripMenuItem1.Click += new System.EventHandler(this.clearToolStripMenuItem1_Click);
+            // 
             // InvoiceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -306,16 +274,15 @@
             this.Controls.Add(this.addToFormButton);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.customer_phone_tb);
+            this.Controls.Add(this.license_no_tb);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.printPreview);
-            this.Controls.Add(this.customer_address_tb);
+            this.Controls.Add(this.date_tb);
+            this.Controls.Add(this.customer_email_tb);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.customer_phone_tb);
+            this.Controls.Add(this.customer_address_tb);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.customer_name_tb);
             this.Controls.Add(this.customer_name);
@@ -334,31 +301,27 @@
 
         private System.Windows.Forms.MenuStrip form_menu;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private System.Windows.Forms.Label customer_name;
         private System.Windows.Forms.TextBox customer_name_tb;
-        private System.Windows.Forms.TextBox customer_phone_tb;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox customer_address_tb;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox customer_email_tb;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ToolStripMenuItem reloadPricesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem printToolStripMenuItem;
         private System.Windows.Forms.PrintDialog printDialog1;
-        private System.Windows.Forms.PrintPreviewControl printPreview;
         private System.Windows.Forms.ToolStripMenuItem pricesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem priceSheetToolStripMenuItem;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox date_tb;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox license_no_tb;
+        private System.Windows.Forms.TextBox customer_phone_tb;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button addToFormButton;
         private System.Windows.Forms.Label errorLabel;
+        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem1;
     }
 }
 

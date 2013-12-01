@@ -16,8 +16,10 @@ namespace ButcherBlock
     public partial class InvoiceForm : Form
     {
 
-        PrintingClass testDocument1 = new PrintingClass(" Hello I am from the future bro\nWe print stuff in the future!");
+        List<string> lines = new List<string>();
+        int lineNumber = 0;
 
+        PrintingClass test = new PrintingClass();
         public ArrayList table_quantities = new ArrayList();
         public ArrayList table_descriptions = new ArrayList();
         public ArrayList table_added_quant = new ArrayList();
@@ -54,10 +56,35 @@ namespace ButcherBlock
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            /*
             if (printDialog1.ShowDialog() == DialogResult.OK)
             {
-                printPreview.Document = testDocument1;
-                testDocument1.Print();
+                preparePrint();
+                printPreview.Document = test;
+                test.Print();
+            }*/
+
+            PrintDialog printDlg = new PrintDialog();
+
+            PrintDocument printDoc = new PrintDocument();
+
+            printDoc.DocumentName = "Print Document";
+
+            printDoc.PrintPage += new PrintPageEventHandler
+                   (this.pd_PrintPage);
+
+            printDlg.Document = printDoc;
+
+            printDlg.AllowSelection = true;
+
+            printDlg.AllowSomePages = true;
+
+            //Call ShowDialog
+
+            if (printDlg.ShowDialog() == DialogResult.OK)
+            {
+                preparePrint();
+                printDoc.Print();
             }
         }
 
@@ -134,6 +161,7 @@ namespace ButcherBlock
             FormulaHandler f = new FormulaHandler(newProduct.Name, newProduct.Quantity);
 
             newProduct.AddedWeight = f.getToAdd();
+            newProduct.ProductContents = f.getContents();
 
             foreach (Product pa in products)
             {
@@ -222,6 +250,147 @@ namespace ButcherBlock
                 errorLabel.Text = "Error in order form, only numbers can be in quan";
             }
 
+        }
+
+        public void preparePrint()
+        {
+            for (int i = 0; i < 10; i++)
+                doubleSpace();
+
+            if (customer_name_tb.Text != "")
+            {
+                lines.Add("Name: " + customer_name_tb.Text);
+                doubleSpace();
+            }
+            if (date_tb.Text != "")
+            {
+                lines.Add("Date: " + date_tb.Text);
+                doubleSpace();
+            }
+            if (customer_address_tb.Text != "")
+            {
+                lines.Add("Address: " + customer_address_tb.Text);
+                doubleSpace();
+            }
+            if (customer_email_tb.Text != "")
+            {
+                lines.Add("Email: " + customer_email_tb.Text);
+                doubleSpace();
+            }
+            if (customer_phone_tb.Text != "")
+            {
+               lines.Add("Phone: " + customer_phone_tb.Text);
+               doubleSpace();
+            }
+            if (license_no_tb.Text != "")
+            {
+                lines.Add("License No: " + license_no_tb.Text);
+                doubleSpace();
+            }
+
+            lines.Add("---------------------------------");
+            doubleSpace();
+            doubleSpace();
+
+            int l = 1;
+
+            double orderCost = 0;
+
+            foreach (Product p in order)
+            {
+
+                if (p.Quantity > 0)
+                {
+                    orderCost += p.TotalCost;
+                    if (p.ProductContents != "")
+                    {
+                        lines.Add(l + ".\t " + p.Quantity + " lb(s) " + p.Name + ", " + p.PriceString);
+                        lines.Add("\t\t\t-" + p.ProductContents);
+                        lines.Add("Cost: " + p.TotalWeight + " x " + p.Price);
+                    }
+                    else
+                    {
+                        lines.Add(l + ".\t " + p.Name + ", " + p.PriceString);
+                    }
+                    lines.Add("-" + p.TotalCostString);
+                    lines.Add("---------");
+                    doubleSpace();
+                    l++;
+                }
+            }
+
+            lines.Add("Order Cost: " + orderCost.ToString("C"));
+
+            lines.Add(null);
+        }
+
+        private void pd_PrintPage(object sender, PrintPageEventArgs ev)
+        {
+            float linesPerPage = 0
+                ;
+            float yPos = 0;
+            int count = 0;
+            float leftMargin = ev.MarginBounds.Left;
+            float topMargin = ev.MarginBounds.Top;
+            string line = null;
+            Font printFont = new Font("Times New Roman", 12);
+
+            line = "0";
+            // Calculate the number of lines per page.
+            linesPerPage = ev.MarginBounds.Height /
+               printFont.GetHeight(ev.Graphics);
+
+            StringFormat format = new StringFormat(StringFormatFlags.LineLimit);
+            float[] formatTabs = { 10.0f, 20.0f };
+            format.SetTabStops(10.0f, formatTabs);
+
+            while (count < linesPerPage && line != null)
+            {
+                line = lines[lineNumber];
+                yPos = topMargin + (count * printFont.GetHeight(ev.Graphics));
+                ev.Graphics.DrawString(line, printFont, Brushes.Black,
+                leftMargin, yPos, format);
+                count++;
+                lineNumber++;
+            }
+
+
+
+            // If more lines exist, print another page.
+            if (line != null)
+                ev.HasMorePages = true;
+            else
+                ev.HasMorePages = false;
+
+        }
+
+        public void doubleSpace()
+        {
+            lines.Add(" ");
+        }
+
+        private void clearToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want erase everything?", "Confirm reset", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                customer_name_tb.Text = "";
+                customer_address_tb.Text = "";
+                customer_phone_tb.Text = "";
+                customer_email_tb.Text = "";
+                license_no_tb.Text = "";
+                date_tb.Text = "";
+
+                lines.Clear();
+                lineNumber = 0;
+                table_quantities.Clear();
+                table_descriptions.Clear();
+                table_added_quant.Clear();
+                table_total_weight.Clear();
+                table_unit_prices.Clear();
+                table_total_cost.Clear();
+                table_added_content.Clear();
+                order.Clear();
+            }
         }
 
 
