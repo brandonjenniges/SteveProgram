@@ -66,7 +66,7 @@ namespace ButcherBlock
         {
             get
             {
-                return name.Equals("Deer Processing") ? "$" + price : "$" + price + "/lb";
+                return name.Equals("Deer Processing") ? price.ToString("C") : price.ToString("C") + "/lb";
             }
         }
 
@@ -114,7 +114,7 @@ namespace ButcherBlock
         {
             get
             {
-                return "$" + TotalCost;
+                return TotalCost.ToString("C");
             }
         }
 

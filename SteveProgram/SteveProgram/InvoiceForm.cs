@@ -27,6 +27,7 @@ namespace ButcherBlock
         public ArrayList table_unit_prices = new ArrayList();
         public ArrayList table_total_cost = new ArrayList();
         public ArrayList table_added_content = new ArrayList();
+        public ArrayList table_delete_buttons = new ArrayList();
 
         List<Product> order = new List<Product>();
         List<Product> products = new List<Product>();
@@ -42,27 +43,11 @@ namespace ButcherBlock
             products = helper.getAllProducts();
             createProductComboList();
             createTableLayout();
-        }
-
-        private void reloadPricesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void printDocument1_PrintPage(object sender, System.Drawing.Printing.PrintPageEventArgs e)
-        {
-
+            this.WindowState = FormWindowState.Maximized;
         }
 
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*
-            if (printDialog1.ShowDialog() == DialogResult.OK)
-            {
-                preparePrint();
-                printPreview.Document = test;
-                test.Print();
-            }*/
 
             PrintDialog printDlg = new PrintDialog();
 
@@ -86,11 +71,6 @@ namespace ButcherBlock
                 preparePrint();
                 printDoc.Print();
             }
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            
         }
 
         private void priceSheetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -123,6 +103,9 @@ namespace ButcherBlock
             Label addedHeading = new Label();
             addedHeading.Text = "Included";
 
+            Label deleteHeading = new Label();
+            deleteHeading.Text = "Delete";
+
             tableLayoutPanel1.Controls.Add(quantityHeading, 0, 0);
 
             tableLayoutPanel1.Controls.Add(descriptionHeading, 1, 0);
@@ -136,10 +119,10 @@ namespace ButcherBlock
             tableLayoutPanel1.Controls.Add(amountHeading, 5, 0);
 
             tableLayoutPanel1.Controls.Add(addedHeading, 6, 0);
+
+            tableLayoutPanel1.Controls.Add(deleteHeading, 7, 0);
  
             comboBox1.DataSource = productNames;
-
-          
 
         }
 
@@ -153,12 +136,17 @@ namespace ButcherBlock
 
         private void addToFormButton_Click(object sender, EventArgs e)
         {
+
+            tableLayoutPanel1.RowCount++;
+
+            addToFormButton.Enabled = false;
+
             Product newProduct = new Product();
             newProduct.Id = comboBox1.SelectedIndex;
             newProduct.Name = comboBox1.SelectedItem.ToString();
             newProduct.Quantity = newProduct.Name == "Deer Processing" ? 1 : 10;
 
-            FormulaHandler f = new FormulaHandler(newProduct.Name, newProduct.Quantity);
+            FormulaHandler f = new FormulaHandler(newProduct.Id, newProduct.Quantity);
 
             newProduct.AddedWeight = f.getToAdd();
             newProduct.ProductContents = f.getContents();
@@ -168,6 +156,7 @@ namespace ButcherBlock
                 if (pa.Name == newProduct.Name)
                 {
                     newProduct.Price = pa.Price;
+                    break;
                 }
             }
 
@@ -175,7 +164,7 @@ namespace ButcherBlock
             q.Text = newProduct.Quantity.ToString();
             table_quantities.Add(q);
             q.TextChanged += new System.EventHandler(this.quan_changed);
-            q.Tag = rows;
+            q.Tag = order.Count + 1;
             rows++;
 
             Label d = new Label();
@@ -204,25 +193,37 @@ namespace ButcherBlock
             c.AutoSize = true;
             table_added_content.Add(c);
 
-            for (int i = 0; i < table_total_cost.Count; i++)
-            {
-                tableLayoutPanel1.Controls.Add((TextBox)table_quantities[i], 0, i + 1);
+            Button del = new Button();
+            del.Text = "Delete";
+            del.Tag = order.Count + 1;
+            del.AutoSize = true;
+            del.Click += new System.EventHandler(this.deleteOrderItem);
+            table_delete_buttons.Add(del);
 
-                tableLayoutPanel1.Controls.Add((Label)table_descriptions[i], 1, i + 1);
+            int row = order.Count;
 
-                tableLayoutPanel1.Controls.Add((Label)table_added_quant[i], 2, i + 1);
+            tableLayoutPanel1.Controls.Add((TextBox)table_quantities[row], 0, row + 1);
 
-                tableLayoutPanel1.Controls.Add((Label)table_total_weight[i], 3, i + 1);
+            tableLayoutPanel1.Controls.Add((Label)table_descriptions[row], 1, row + 1);
 
-                tableLayoutPanel1.Controls.Add((Label)table_unit_prices[i], 4, i + 1);
+            tableLayoutPanel1.Controls.Add((Label)table_added_quant[row], 2, row + 1);
 
-                tableLayoutPanel1.Controls.Add((Label)table_total_cost[i], 5, i + 1);
+            tableLayoutPanel1.Controls.Add((Label)table_total_weight[row], 3, row + 1);
 
-                tableLayoutPanel1.Controls.Add((Label)table_added_content[i], 6, i + 1);
-            }
+            tableLayoutPanel1.Controls.Add((Label)table_unit_prices[row], 4, row + 1);
+
+            tableLayoutPanel1.Controls.Add((Label)table_total_cost[row], 5, row + 1);
+
+            tableLayoutPanel1.Controls.Add((Label)table_added_content[row], 6, row + 1);
+
+            tableLayoutPanel1.Controls.Add((Button)table_delete_buttons[row], 7, row + 1);
+               
+            tableLayoutPanel1.Refresh();
 
             order.Add(newProduct);
 
+            addToFormButton.Enabled = true;
+            
         }
 
         private void quan_changed(object sender, EventArgs e)
@@ -230,9 +231,9 @@ namespace ButcherBlock
             try
             {
                 int inputValue = Convert.ToInt32(((TextBox)sender).Text);
-                int id = Convert.ToInt32(((TextBox)sender).Tag);
+                int id = Convert.ToInt32(((TextBox)sender).Tag) - 1;
 
-                FormulaHandler f = new FormulaHandler(order[id].Name, inputValue);
+                FormulaHandler f = new FormulaHandler(order[id].Id, inputValue);
 
                 order[id].Quantity = inputValue;
                 order[id].AddedWeight = f.getToAdd();
@@ -247,7 +248,7 @@ namespace ButcherBlock
             }
             catch (Exception ex)
             {
-                errorLabel.Text = "Error in order form, only numbers can be in quan";
+                MessageBox.Show(ex.ToString());
             }
 
         }
@@ -306,7 +307,7 @@ namespace ButcherBlock
                     {
                         lines.Add(l + ".\t " + p.Quantity + " lb(s) " + p.Name + ", " + p.PriceString);
                         lines.Add("\t\t\t-" + p.ProductContents);
-                        lines.Add("Cost: " + p.TotalWeight + " x " + p.Price);
+                        lines.Add("Cost: " + p.TotalWeight + " x " + p.PriceString);
                     }
                     else
                     {
@@ -326,8 +327,7 @@ namespace ButcherBlock
 
         private void pd_PrintPage(object sender, PrintPageEventArgs ev)
         {
-            float linesPerPage = 0
-                ;
+            float linesPerPage = 0;
             float yPos = 0;
             int count = 0;
             float leftMargin = ev.MarginBounds.Left;
@@ -391,6 +391,57 @@ namespace ButcherBlock
                 table_added_content.Clear();
                 order.Clear();
             }
+        }
+
+        private void deleteOrderItem(object sender, EventArgs e)
+        {
+            int row = Convert.ToInt32(((Button)sender).Tag) - 1;
+
+            order.RemoveAt(row);
+            tableLayoutPanel1.Invalidate();
+
+            tableLayoutPanel1.Refresh();
+
+            for (int i = 0; i < 8; i++)
+            {
+                tableLayoutPanel1.Controls.RemoveAt((row + 1 ) * 8);
+            }
+
+            table_quantities.RemoveAt(row);
+            table_descriptions.RemoveAt(row);
+            table_added_quant.RemoveAt(row);
+            table_total_weight.RemoveAt(row);
+            table_unit_prices.RemoveAt(row);
+            table_total_cost.RemoveAt(row);
+            table_added_content.RemoveAt(row);
+            table_delete_buttons.RemoveAt(row);
+
+            for (int i = 1; i <= table_delete_buttons.Count; i++)
+            {
+                ((Button)table_delete_buttons[i - 1]).Tag = i;
+                ((TextBox)table_quantities[i - 1]).Tag = i;
+            }
+
+            for (int i = 0; i < order.Count; i++)
+            {
+                tableLayoutPanel1.Controls.Add((TextBox)table_quantities[i], 0, i + 1);
+
+                tableLayoutPanel1.Controls.Add((Label)table_descriptions[i], 1, i + 1);
+
+                tableLayoutPanel1.Controls.Add((Label)table_added_quant[i], 2, i + 1);
+
+                tableLayoutPanel1.Controls.Add((Label)table_total_weight[i], 3, i + 1);
+
+                tableLayoutPanel1.Controls.Add((Label)table_unit_prices[i], 4, i + 1);
+
+                tableLayoutPanel1.Controls.Add((Label)table_total_cost[i], 5, i + 1);
+
+                tableLayoutPanel1.Controls.Add((Label)table_added_content[i], 6, i + 1);
+
+                tableLayoutPanel1.Controls.Add((Button)table_delete_buttons[i], 7, i + 1);
+            }
+
+            tableLayoutPanel1.RowCount -= 1;
         }
 
 

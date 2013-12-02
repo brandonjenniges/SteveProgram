@@ -11,71 +11,71 @@ namespace ButcherBlock
         private double toAdd;
         private string contents;
 
-        public FormulaHandler(string product, double quantity)
+        public FormulaHandler(int product_id, double quantity)
         {
-            switch (product)
+            switch (product_id)
             {
-                case "Deer Processing":
+                case 0:
+                    toAdd = 0;
+                    contents = "Processing + hide";
+                    break;
+                case 1:
                     toAdd = 0;
                     contents = "";
                     break;
-                case "Boning":
-                    toAdd = 0;
-                    contents = "";
-                    break;
-                case "Bratwurst":
+                case 2:
                     toAdd = Math.Ceiling(quantity / 2);
                     contents = quantity + "# Venison " + toAdd + "# Pork";
                     break;
-                case "Link Sausage":
+                case 3:
                     toAdd = Math.Ceiling(quantity / 2);
                     contents = quantity + "# Venison " + toAdd + "# Pork";
                     break;
-                case "Bulk Breakfast Sausage":
+                case 4:
                     toAdd = Math.Ceiling(quantity / 2);
                     contents = quantity + "# Venison " + toAdd + "# Pork";
                     break;
-                case "Whole Muscle Jerkey (rounds only)":
+                case 5:
                     toAdd = 0;
                     contents = quantity + "# Green Weight";
                     break;
-                case "Ground Jerky":
+                case 6:
                     toAdd = Math.Floor(quantity / 10);
                     contents = toAdd > 0 ? quantity + "# Venison " + toAdd + "# Beef Trim" : quantity + "# Venison ";
                     break;
-                case "Pepperoni Sticks":
+                case 7:
                     toAdd = quantity < 10 ? 1 : Math.Ceiling(quantity/5);
                     contents = quantity + "# Venison " + toAdd + "# Beef Trim";
                     break;
-                case "Pepperoni Sticks with cheese":
+                case 8:
                     toAdd = quantity < 10 ? 1 : Math.Ceiling(quantity/5);
                     contents = quantity + "# Venison " + toAdd + "# Beef Trim";
                     break;
-                case "Polish Sausage":
+                case 9:
                     toAdd = Math.Ceiling(quantity / 2);
                     contents = quantity + "# Venison " + toAdd + "# Pork Trim";
                     break;
-                case "Summer Sausage":
+                case 10:
                     toAdd = quantity < 10 ? 1 : Math.Ceiling(quantity/5);
                     contents = quantity + "# Venison " + toAdd + "# Beef Trim";
                     break;
-                case "Summer Sausage with cheese":
+                case 11:
                     toAdd = quantity < 10 ? 1 : Math.Ceiling(quantity/5);
                     contents = quantity + "# Venison " + toAdd + "# Beef Trim";
                     break;
-                case "Wieners":
+                case 12:
                     toAdd = Math.Ceiling(quantity / 2);
                     contents = quantity + "# Venison " + toAdd + "# Pork";
                     break;
-                case "Dried Venison (rounds only)" :
+                case 13 :
                     toAdd = 0;
                     contents = quantity + "# Green Weight";
                     break;
-                case "Gourmet 1/3 Seasoned Venison Patties":
+                case 14:
                     toAdd = quantity < 10 ? 1 : Math.Ceiling(quantity/5);
                     contents = quantity + "# Venison " + toAdd /2 + "# Bacon " +toAdd/2 + "# Beef";
                     break;
-                case "Venison Bacon":
+                case 15:
                     toAdd = quantity;
                     contents = quantity + "# Venison " + toAdd + "# Pork Trim";
                     break;
@@ -83,7 +83,6 @@ namespace ButcherBlock
                     toAdd = 0;
                     contents = "Error";
                     break;
-
             }
         }
 
