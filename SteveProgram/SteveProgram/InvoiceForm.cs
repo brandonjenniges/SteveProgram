@@ -35,6 +35,7 @@ namespace ButcherBlock
 
         SQLiteHelper helper = new SQLiteHelper();
 
+        private Boolean loading = false;
         private int rows = 0;
 
         public InvoiceForm()
@@ -63,8 +64,6 @@ namespace ButcherBlock
             printDlg.AllowSelection = true;
 
             printDlg.AllowSomePages = true;
-
-            //Call ShowDialog
 
             if (printDlg.ShowDialog() == DialogResult.OK)
             {
@@ -136,94 +135,102 @@ namespace ButcherBlock
 
         private void addToFormButton_Click(object sender, EventArgs e)
         {
-
-            tableLayoutPanel1.RowCount++;
-
-            addToFormButton.Enabled = false;
-
-            Product newProduct = new Product();
-            newProduct.Id = comboBox1.SelectedIndex;
-            newProduct.Name = comboBox1.SelectedItem.ToString();
-            newProduct.Quantity = newProduct.Name == "Deer Processing" ? 1 : 10;
-
-            FormulaHandler f = new FormulaHandler(newProduct.Id, newProduct.Quantity);
-
-            newProduct.AddedWeight = f.getToAdd();
-            newProduct.ProductContents = f.getContents();
-
-            foreach (Product pa in products)
+            if (!loading)
             {
-                if (pa.Name == newProduct.Name)
+                loading = true;
+
+                this.tableLayoutPanel1.SuspendLayout();
+
+                tableLayoutPanel1.RowCount++;
+
+
+                Product newProduct = new Product();
+                newProduct.Id = comboBox1.SelectedIndex;
+                newProduct.Name = comboBox1.SelectedItem.ToString();
+                newProduct.Quantity = newProduct.Name == "Deer Processing" ? 1 : 10;
+
+                FormulaHandler f = new FormulaHandler(newProduct.Id, newProduct.Quantity);
+
+                newProduct.AddedWeight = f.getToAdd();
+                newProduct.ProductContents = f.getContents();
+
+                foreach (Product pa in products)
                 {
-                    newProduct.Price = pa.Price;
-                    break;
+                    if (pa.Name == newProduct.Name)
+                    {
+                        newProduct.Price = pa.Price;
+                        break;
+                    }
                 }
+
+                TextBox q = new TextBox();
+                q.Text = newProduct.Quantity.ToString();
+                table_quantities.Add(q);
+                q.TextChanged += new System.EventHandler(this.quan_changed);
+                q.Tag = order.Count + 1;
+                rows++;
+
+                Label d = new Label();
+                d.Text = newProduct.Name;
+                d.AutoSize = true;
+                table_descriptions.Add(d);
+
+                Label a = new Label();
+                a.Text = newProduct.AddedWeight.ToString();
+                table_added_quant.Add(a);
+
+                Label w = new Label();
+                w.Text = newProduct.TotalWeight.ToString();
+                table_total_weight.Add(w);
+
+                Label p = new Label();
+                p.Text = newProduct.PriceString;
+                table_unit_prices.Add(p);
+
+                Label t = new Label();
+                t.Text = newProduct.TotalCostString;
+                table_total_cost.Add(t);
+
+                Label c = new Label();
+                c.Text = f.getContents();
+                c.AutoSize = true;
+                table_added_content.Add(c);
+
+                Button del = new Button();
+                del.Text = "Delete";
+                del.Tag = order.Count + 1;
+                del.AutoSize = true;
+                del.Click += new System.EventHandler(this.deleteOrderItem);
+                table_delete_buttons.Add(del);
+
+                int row = order.Count;
+
+                System.Console.WriteLine(row);
+
+                tableLayoutPanel1.Controls.Add((TextBox)table_quantities[row], 0, row + 1);
+
+                tableLayoutPanel1.Controls.Add((Label)table_descriptions[row], 1, row + 1);
+
+                tableLayoutPanel1.Controls.Add((Label)table_added_quant[row], 2, row + 1);
+
+                tableLayoutPanel1.Controls.Add((Label)table_total_weight[row], 3, row + 1);
+
+                tableLayoutPanel1.Controls.Add((Label)table_unit_prices[row], 4, row + 1);
+
+                tableLayoutPanel1.Controls.Add((Label)table_total_cost[row], 5, row + 1);
+
+                tableLayoutPanel1.Controls.Add((Label)table_added_content[row], 6, row + 1);
+
+                tableLayoutPanel1.Controls.Add((Button)table_delete_buttons[row], 7, row + 1);
+
+                //tableLayoutPanel1.Refresh();
+
+                order.Add(newProduct);
+
+                loading = false;
+
+                this.tableLayoutPanel1.ResumeLayout();
             }
-
-            TextBox q = new TextBox();
-            q.Text = newProduct.Quantity.ToString();
-            table_quantities.Add(q);
-            q.TextChanged += new System.EventHandler(this.quan_changed);
-            q.Tag = order.Count + 1;
-            rows++;
-
-            Label d = new Label();
-            d.Text = newProduct.Name;
-            d.AutoSize = true;
-            table_descriptions.Add(d);
-
-            Label a = new Label();
-            a.Text = newProduct.AddedWeight.ToString();
-            table_added_quant.Add(a);
-
-            Label w = new Label();
-            w.Text = newProduct.TotalWeight.ToString();
-            table_total_weight.Add(w);
-
-            Label p = new Label();
-            p.Text = newProduct.PriceString;
-            table_unit_prices.Add(p);
-
-            Label t = new Label();
-            t.Text = newProduct.TotalCostString;
-            table_total_cost.Add(t);
-
-            Label c = new Label();
-            c.Text = f.getContents();
-            c.AutoSize = true;
-            table_added_content.Add(c);
-
-            Button del = new Button();
-            del.Text = "Delete";
-            del.Tag = order.Count + 1;
-            del.AutoSize = true;
-            del.Click += new System.EventHandler(this.deleteOrderItem);
-            table_delete_buttons.Add(del);
-
-            int row = order.Count;
-
-            tableLayoutPanel1.Controls.Add((TextBox)table_quantities[row], 0, row + 1);
-
-            tableLayoutPanel1.Controls.Add((Label)table_descriptions[row], 1, row + 1);
-
-            tableLayoutPanel1.Controls.Add((Label)table_added_quant[row], 2, row + 1);
-
-            tableLayoutPanel1.Controls.Add((Label)table_total_weight[row], 3, row + 1);
-
-            tableLayoutPanel1.Controls.Add((Label)table_unit_prices[row], 4, row + 1);
-
-            tableLayoutPanel1.Controls.Add((Label)table_total_cost[row], 5, row + 1);
-
-            tableLayoutPanel1.Controls.Add((Label)table_added_content[row], 6, row + 1);
-
-            tableLayoutPanel1.Controls.Add((Button)table_delete_buttons[row], 7, row + 1);
-               
-            tableLayoutPanel1.Refresh();
-
-            order.Add(newProduct);
-
-            addToFormButton.Enabled = true;
-            
         }
 
         private void quan_changed(object sender, EventArgs e)
